@@ -26,31 +26,31 @@
     </nav>
 
     <main class="main">
-  <div class="main-head">
-    <div>
-      <h1>Your tasks</h1>
-      <p class="subtitle">Stay on top of what matters</p>
-    </div>
-    <button class="btn btn-primary" id="newTaskBtn">+ New task</button>
+      <div class="main-head">
+        <div>
+          <h1>Your tasks</h1>
+          <p class="subtitle">Stay on top of what matters</p>
+        </div>
+        <button class="btn btn-primary" id="newTaskBtn">+ New task</button>
+      </div>
+
+      <div class="spinner" id="spinner"></div>
+
+      <!-- Incomplete tasks – always visible -->
+      <div id="incompleteSection">
+        <h2 style="font-family:'Baloo 2',sans-serif; margin: 20px 0 12px;">📋 To do</h2>
+        <div class="notes-grid" id="incompleteGrid"></div>
+      </div>
+
+      <!-- Completed tasks – always visible -->
+      <div id="completedSection">
+        <h2 style="font-family:'Baloo 2',sans-serif; margin: 20px 0 12px;">✅ Completed</h2>
+        <div class="notes-grid" id="completedGrid"></div>
+      </div>
+    </main>
   </div>
 
-  <div class="spinner" id="spinner"></div>
-
-  <!-- Incomplete tasks - always visible -->
-  <div id="incompleteSection">
-    <h2 style="font-family:'Baloo 2',sans-serif; margin: 20px 0 12px;">📋 To do</h2>
-    <div class="notes-grid" id="incompleteGrid"></div>
-  </div>
-
-  <!-- Completed tasks - always visible -->
-  <div id="completedSection">
-    <h2 style="font-family:'Baloo 2',sans-serif; margin: 20px 0 12px;">✅ Completed</h2>
-    <div class="notes-grid" id="completedGrid"></div>
-  </div>
-</main>
-  </div>
-
-  <!-- add / edit task modal -->
+  <!-- Modal -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal-card">
       <h2 id="modalTitle">New task</h2>
