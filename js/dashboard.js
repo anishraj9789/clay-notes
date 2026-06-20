@@ -54,7 +54,8 @@ async function initAuthGuard() {
     return;
   }
   currentUser = data.session.user;
-  userEmailEl.textContent = currentUser.email;
+const displayName = currentUser.user_metadata?.full_name || currentUser.email;
+userEmailEl.textContent = displayName;
   loadTasks();
 }
 
