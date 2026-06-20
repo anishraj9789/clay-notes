@@ -10,82 +10,72 @@ A full-stack task management app with claymorphism design
 
 
 📋 Overview
-Clay Tasks is a beautifully designed, full-featured task management application built with vanilla HTML, CSS, and JavaScript. It uses Supabase (PostgreSQL) as the backend, providing secure user authentication and data persistence with Row Level Security (RLS).
 
-This project was built as Project 3 (Database Integration) for the DecodeLabs Full Stack Development Internship — demonstrating mastery of CRUD operations, database design, and secure data handling.
+**Clay Tasks** is a beautifully designed, full-featured task management application built with vanilla HTML, CSS, and JavaScript. It uses **Supabase** (PostgreSQL) as the backend, providing secure user authentication and data persistence with **Row Level Security (RLS)**.
 
-✨ Features
-🔐 Authentication
-User registration with name, email, and password
+This project was built as **Project 3 (Database Integration)** for the **DecodeLabs Full Stack Development Internship** — demonstrating mastery of CRUD operations, database design, and secure data handling.
 
-Secure login/logout
+**live demo** = 
 
-Email confirmation support (configurable)
 
-User name displayed in dashboard (not just email)
+## ✨ Features
 
-📝 Task Management
-Create tasks with title, description, and optional due date
+### 🔐 Authentication
+- User registration with name, email, and password
+- Secure login/logout
+- Email confirmation support (configurable)
+- User name displayed in dashboard (not just email)
 
-Read all your tasks instantly
+### 📝 Task Management
+- **Create** tasks with title, description, and optional due date
+- **Read** all your tasks instantly
+- **Update** task details or mark as complete
+- **Delete** tasks permanently
 
-Update task details or mark as complete
+### 📊 Smart Task Organization
+- **⏰ Overdue** – Tasks past their due date (auto-sorted)
+- **📋 To Do** – Pending tasks with future/no due date
+- **✅ Completed** – Finished tasks
 
-Delete tasks permanently
+### 🎯 Visual Features
+- ✨ Claymorphism UI design (soft, tactile, modern)
+- 🎨 Beautiful gradient backgrounds with floating blobs
+- 📱 Fully responsive for mobile and desktop
+- 🖱️ Smooth animations and hover effects
+- 🔴 Overdue tasks highlighted with red border
+- 🔔 Toast notifications for all actions
 
-📊 Smart Task Organization
-⏰ Overdue – Tasks past their due date (auto-sorted)
+### 🛡️ Security
+- Row Level Security (RLS) policies enforce data isolation
+- Only the task owner can read/write their data
+- Parameterized queries prevent SQL injection
+- Proper input sanitization
 
-📋 To Do – Pending tasks with future/no due date
+---
 
-✅ Completed – Finished tasks
+## 🛠️ Tech Stack
 
-🎯 Visual Features
-✨ Claymorphism UI design (soft, tactile, modern)
+| Layer | Technology |
+|-------|------------|
+| **Frontend** | HTML5, CSS3, Vanilla JavaScript |
+| **Backend** | Supabase (PostgreSQL) |
+| **Authentication** | Supabase Auth (email/password) |
+| **Database** | PostgreSQL with RLS |
+| **Styling** | Custom claymorphism design system |
+| **Deployment** | Vercel / Netlify ready |
 
-🎨 Beautiful gradient backgrounds with floating blobs
-
-📱 Fully responsive for mobile and desktop
-
-🖱️ Smooth animations and hover effects
-
-🔴 Overdue tasks highlighted with red border
-
-🔔 Toast notifications for all actions
-
-🛡️ Security
-Row Level Security (RLS) policies enforce data isolation
-
-Only the task owner can read/write their data
-
-Parameterized queries prevent SQL injection
-
-Proper input sanitization
-
-🚀 Live Demo
-🔗 Coming soon – Deploy to Vercel/Netlify and add your link here.
-
-🛠️ Tech Stack
-Layer	Technology
-Frontend	HTML5, CSS3, Vanilla JavaScript
-Backend	Supabase (PostgreSQL)
-Authentication	Supabase Auth (email/password)
-Database	PostgreSQL with RLS
-Styling	Custom claymorphism design system
-Deployment	Vercel / Netlify ready
 📁 Project Structure
-text
 clay-notes-frontend/
-├── index.html          # Login page
-├── signup.html         # Registration page
-├── dashboard.html      # Main task dashboard
+├── index.html # Login page
+├── signup.html # Registration page
+├── dashboard.html # Main task dashboard
 ├── css/
-│   └── style.css       # Complete design system
+│ └── style.css # Complete design system
 ├── js/
-│   ├── supabaseClient.js  # Supabase configuration
-│   ├── auth.js            # Login/signup logic
-│   └── dashboard.js       # Task CRUD + dashboard logic
-└── README.md           # This file
+│ ├── supabaseClient.js # Supabase configuration
+│ ├── auth.js # Login/signup logic
+│ └── dashboard.js # Task CRUD + dashboard logic
+└── README.md # This file
 
 
 🎯 Learning Outcomes
