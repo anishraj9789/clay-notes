@@ -1,3 +1,7 @@
+/* ===========================================================
+   Dashboard logic — tasks CRUD with status, due date, and overdue
+   =========================================================== */
+
 let currentUser = null;
 let tasksCache = [];
 let editingId = null;
@@ -5,8 +9,10 @@ let editingId = null;
 // DOM refs
 const incompleteGrid = document.getElementById('incompleteGrid');
 const completedGrid = document.getElementById('completedGrid');
+const overdueGrid = document.getElementById('overdueGrid');
 const incompleteSection = document.getElementById('incompleteSection');
 const completedSection = document.getElementById('completedSection');
+const overdueSection = document.getElementById('overdueSection');
 const spinner = document.getElementById('spinner');
 const userEmailEl = document.getElementById('userEmail');
 
@@ -16,8 +22,6 @@ const taskForm = document.getElementById('taskForm');
 const taskTitleInput = document.getElementById('taskTitleInput');
 const taskContentInput = document.getElementById('taskContentInput');
 const taskDueInput = document.getElementById('taskDueInput');
-const overdueGrid = document.getElementById('overdueGrid');
-const overdueSection = document.getElementById('overdueSection');
 
 // ---------- helpers ----------
 function showToast(msg, isError = false) {
@@ -50,15 +54,24 @@ function isOverdue(dueDate) {
 
 // ---------- auth guard ----------
 async function initAuthGuard() {
-  const { data } = await window.sb.auth.getSession();
-  if (!data || !data.session) {
-    window.location.href = 'index.html';
-    return;
+  try {
+    const { data, error } = await window.sb.auth.getSession();
+    if (error) {
+      showToast('Auth error: ' + error.message, true);
+      return;
+    }
+    if (!data || !data.session) {
+      window.location.href = 'index.html';
+      return;
+    }
+    currentUser = data.session.user;
+    const displayName = currentUser.user_metadata?.full_name || currentUser.email;
+    userEmailEl.textContent = displayName;
+    loadTasks();
+  } catch (err) {
+    showToast('Something went wrong: ' + err.message, true);
+    console.error(err);
   }
-  currentUser = data.session.user;
-const displayName = currentUser.user_metadata?.full_name || currentUser.email;
-userEmailEl.textContent = displayName;
-  loadTasks();
 }
 
 window.sb.auth.onAuthStateChange((event, session) => {
@@ -74,35 +87,31 @@ document.getElementById('logoutBtn').addEventListener('click', async () => {
 
 // ---------- load tasks ----------
 async function loadTasks() {
-    spinner.style.display = 'block';
-    incompleteSection.style.display = 'none';
-    completedSection.style.display = 'none';
-    overdueSection.style.display = 'none';
+  spinner.style.display = 'block';
+  incompleteSection.style.display = 'none';
+  completedSection.style.display = 'none';
+  overdueSection.style.display = 'none';
 
-    const { data, error } = await window.sb
-        .from('notes')
-        .select('*')
-        .eq('user_id', currentUser.id)
-        .order('created_at', { ascending: false });
+  const { data, error } = await window.sb
+    .from('notes')
+    .select('*')
+    .eq('user_id', currentUser.id)
+    .order('created_at', { ascending: false });
 
-    spinner.style.display = 'none';
+  spinner.style.display = 'none';
 
-    if (error) {
-        showToast(error.message || 'Could not load tasks', true);
-        return;
-    }
-
-    tasksCache = data || [];
-    renderTasks();
-}
+  if (error) {
+    showToast(error.message || 'Could not load tasks', true);
+    return;
+  }
 
   tasksCache = data || [];
   renderTasks();
 }
 
-// ---------- render tasks – always shows both sections ----------
+// ---------- render tasks – shows three sections ----------
 function renderTasks() {
-  // Always show all three sections
+  // Always show all sections
   incompleteSection.style.display = 'block';
   completedSection.style.display = 'block';
   overdueSection.style.display = 'block';
@@ -114,21 +123,21 @@ function renderTasks() {
   const pending = tasksCache.filter(t => !t.completed && (!t.due_date || new Date(t.due_date) >= now));
   const completed = tasksCache.filter(t => t.completed);
 
-  // --- Overdue Grid ---
+  // Overdue Grid
   if (overdue.length) {
     overdueGrid.innerHTML = overdue.map(task => renderTaskCard(task, false)).join('');
   } else {
     overdueGrid.innerHTML = `<div class="empty-state-mini">🎉 No overdue tasks. Great job!</div>`;
   }
 
-  // --- Pending (To do) Grid ---
+  // Pending (To do) Grid
   if (pending.length) {
     incompleteGrid.innerHTML = pending.map(task => renderTaskCard(task, false)).join('');
   } else {
     incompleteGrid.innerHTML = `<div class="empty-state-mini">✨ No pending tasks. Take a break!</div>`;
   }
 
-  // --- Completed Grid ---
+  // Completed Grid
   if (completed.length) {
     completedGrid.innerHTML = completed.map(task => renderTaskCard(task, true)).join('');
   } else {
@@ -139,10 +148,10 @@ function renderTasks() {
 function renderTaskCard(task, isCompleted) {
   const overdue = !isCompleted && isOverdue(task.due_date);
   const dueDateStr = task.due_date ? formatDate(task.due_date) : 'No due date';
-  const dueClass = overdue ? 'overdue' : '';
+  const overdueStyle = overdue ? 'border: 2px solid var(--danger);' : '';
 
   return `
-    <div class="note-card ${dueClass}" data-id="${task.id}" style="${overdue ? 'border: 2px solid var(--danger);' : ''}">
+    <div class="note-card" data-id="${task.id}" style="${overdueStyle}">
       <h3 class="note-title">${escapeHtml(task.title)}</h3>
       <p class="note-body">${escapeHtml(task.content)}</p>
       <p class="note-meta">Due: ${dueDateStr} ${overdue ? '⚠️ Overdue' : ''}</p>
