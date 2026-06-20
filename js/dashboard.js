@@ -11,7 +11,6 @@ const incompleteGrid = document.getElementById('incompleteGrid');
 const completedGrid = document.getElementById('completedGrid');
 const incompleteSection = document.getElementById('incompleteSection');
 const completedSection = document.getElementById('completedSection');
-const emptyState = document.getElementById('emptyState');
 const spinner = document.getElementById('spinner');
 const userEmailEl = document.getElementById('userEmail');
 
@@ -79,7 +78,6 @@ async function loadTasks() {
   spinner.style.display = 'block';
   incompleteSection.style.display = 'none';
   completedSection.style.display = 'none';
-  emptyState.style.display = 'none';
 
   const { data, error } = await window.sb
     .from('notes')
@@ -98,34 +96,27 @@ async function loadTasks() {
   renderTasks();
 }
 
+// ---------- render tasks – always shows both sections ----------
 function renderTasks() {
-  if (tasksCache.length === 0) {
-    incompleteSection.style.display = 'none';
-    completedSection.style.display = 'none';
-    emptyState.style.display = 'block';
-    return;
-  }
+  // Always show both sections
+  incompleteSection.style.display = 'block';
+  completedSection.style.display = 'block';
 
-  emptyState.style.display = 'none';
-
-  // Split into incomplete and completed
   const incomplete = tasksCache.filter(t => !t.completed);
   const completed = tasksCache.filter(t => t.completed);
 
-  // Render incomplete
+  // Incomplete grid
   if (incomplete.length) {
-    incompleteSection.style.display = 'block';
     incompleteGrid.innerHTML = incomplete.map(task => renderTaskCard(task, false)).join('');
   } else {
-    incompleteSection.style.display = 'none';
+    incompleteGrid.innerHTML = `<div class="empty-state-mini">✨ No pending tasks. Take a break!</div>`;
   }
 
-  // Render completed
+  // Completed grid
   if (completed.length) {
-    completedSection.style.display = 'block';
     completedGrid.innerHTML = completed.map(task => renderTaskCard(task, true)).join('');
   } else {
-    completedSection.style.display = 'none';
+    completedGrid.innerHTML = `<div class="empty-state-mini">📝 No completed tasks yet. Get started!</div>`;
   }
 }
 
@@ -161,7 +152,7 @@ function renderTaskCard(task, isCompleted) {
   `;
 }
 
-// ---------- event delegation for actions ----------
+// ---------- event delegation ----------
 document.addEventListener('click', (e) => {
   const btn = e.target.closest('button[data-action]');
   if (!btn) return;
@@ -195,11 +186,11 @@ async function toggleComplete(id, completed) {
     showToast(error.message || 'Could not update task', true);
     return;
   }
-  showToast(completed ? 'Task completed!' : 'Task reopened');
+  showToast(completed ? '🎉 Task completed!' : 'Task reopened');
   loadTasks();
 }
 
-// ---------- modal open/close ----------
+// ---------- modal ----------
 function openModal(id = null) {
   editingId = id;
   if (id) {
@@ -224,7 +215,6 @@ function closeModal() {
 }
 
 document.getElementById('newTaskBtn').addEventListener('click', () => openModal());
-document.getElementById('emptyNewTaskBtn').addEventListener('click', () => openModal());
 document.getElementById('cancelModalBtn').addEventListener('click', closeModal);
 modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modalOverlay.classList.contains('show')) closeModal(); });
@@ -250,7 +240,6 @@ taskForm.addEventListener('submit', async (e) => {
       .eq('id', editingId)
       .eq('user_id', currentUser.id));
   } else {
-    // New task – default completed = false
     ({ error } = await window.sb
       .from('notes')
       .insert({ title, content, due_date, user_id: currentUser.id, completed: false }));
@@ -264,13 +253,7 @@ taskForm.addEventListener('submit', async (e) => {
     return;
   }
 
-  // Show notification on new task
-  if (!editingId) {
-    showToast(`✨ Task "${title}" created!`);
-  } else {
-    showToast('Task updated');
-  }
-
+  showToast(editingId ? 'Task updated' : `✨ Task "${title}" created!`);
   closeModal();
   loadTasks();
 });
