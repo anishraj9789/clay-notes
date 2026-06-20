@@ -297,7 +297,6 @@ form{ display:flex; flex-direction:column; gap:16px; }
   border: 2px solid var(--danger);
   background: #fff5f0; /* light coral tint */
 }
-/* mini empty state inside each section */
 .empty-state-mini {
   grid-column: 1 / -1;
   text-align: center;
