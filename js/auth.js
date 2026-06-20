@@ -1,8 +1,3 @@
-/* ===========================================================
-   Auth logic — used by index.html (login) and signup.html
-   =========================================================== */
-
-// ---------- toast helper (shared) ----------
 function showToast(msg, isError = false){
   const toast = document.getElementById('toast');
   const toastText = document.getElementById('toastText');
