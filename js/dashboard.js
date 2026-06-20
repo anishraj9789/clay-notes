@@ -16,6 +16,8 @@ const taskForm = document.getElementById('taskForm');
 const taskTitleInput = document.getElementById('taskTitleInput');
 const taskContentInput = document.getElementById('taskContentInput');
 const taskDueInput = document.getElementById('taskDueInput');
+const overdueGrid = document.getElementById('overdueGrid');
+const overdueSection = document.getElementById('overdueSection');
 
 // ---------- helpers ----------
 function showToast(msg, isError = false) {
