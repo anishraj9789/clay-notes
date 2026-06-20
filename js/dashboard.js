@@ -1,7 +1,3 @@
-/* ===========================================================
-   Dashboard logic — tasks CRUD with status and due date
-   =========================================================== */
-
 let currentUser = null;
 let tasksCache = [];
 let editingId = null;
