@@ -26,35 +26,28 @@
     </nav>
 
     <main class="main">
-      <div class="main-head">
-        <div>
-          <h1>Your tasks</h1>
-          <p class="subtitle">Stay on top of what matters</p>
-        </div>
-        <button class="btn btn-primary" id="newTaskBtn">+ New task</button>
-      </div>
+  <div class="main-head">
+    <div>
+      <h1>Your tasks</h1>
+      <p class="subtitle">Stay on top of what matters</p>
+    </div>
+    <button class="btn btn-primary" id="newTaskBtn">+ New task</button>
+  </div>
 
-      <div class="spinner" id="spinner"></div>
+  <div class="spinner" id="spinner"></div>
 
-      <!-- Incomplete tasks -->
-      <div id="incompleteSection" style="display:none;">
-        <h2 style="font-family:'Baloo 2',sans-serif; margin: 20px 0 12px;">To do</h2>
-        <div class="notes-grid" id="incompleteGrid"></div>
-      </div>
+  <!-- Incomplete tasks - always visible -->
+  <div id="incompleteSection">
+    <h2 style="font-family:'Baloo 2',sans-serif; margin: 20px 0 12px;">📋 To do</h2>
+    <div class="notes-grid" id="incompleteGrid"></div>
+  </div>
 
-      <!-- Completed tasks -->
-      <div id="completedSection" style="display:none;">
-        <h2 style="font-family:'Baloo 2',sans-serif; margin: 20px 0 12px;">Completed</h2>
-        <div class="notes-grid" id="completedGrid"></div>
-      </div>
-
-      <div class="empty-state" id="emptyState" style="display:none;">
-        <div class="logo-blob"><span>C</span></div>
-        <h2>No tasks yet</h2>
-        <p>Create your first task to get started.</p>
-        <button class="btn btn-primary" id="emptyNewTaskBtn">+ New task</button>
-      </div>
-    </main>
+  <!-- Completed tasks - always visible -->
+  <div id="completedSection">
+    <h2 style="font-family:'Baloo 2',sans-serif; margin: 20px 0 12px;">✅ Completed</h2>
+    <div class="notes-grid" id="completedGrid"></div>
+  </div>
+</main>
   </div>
 
   <!-- add / edit task modal -->
