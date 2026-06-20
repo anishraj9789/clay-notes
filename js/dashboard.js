@@ -77,6 +77,8 @@ async function loadTasks() {
   spinner.style.display = 'block';
   incompleteSection.style.display = 'none';
   completedSection.style.display = 'none';
+  overdueSection.style.display = 'none'; 
+}
 
   const { data, error } = await window.sb
     .from('notes')
