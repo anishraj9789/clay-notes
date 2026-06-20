@@ -15,7 +15,7 @@ A full-stack task management app with claymorphism design
 
 This project was built as **Project 3 (Database Integration)** for the **DecodeLabs Full Stack Development Internship** — demonstrating mastery of CRUD operations, database design, and secure data handling.
 
-**live demo** = 
+**live demo** = https://anishraj9789.github.io/clay-notes/
 
 
 ## ✨ Features
