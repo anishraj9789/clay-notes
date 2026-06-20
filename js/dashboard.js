@@ -97,21 +97,33 @@ async function loadTasks() {
 
 // ---------- render tasks – always shows both sections ----------
 function renderTasks() {
-  // Always show both sections
+  // Always show all three sections
   incompleteSection.style.display = 'block';
   completedSection.style.display = 'block';
+  overdueSection.style.display = 'block';
 
-  const incomplete = tasksCache.filter(t => !t.completed);
+  const now = new Date();
+
+  // Split into three groups
+  const overdue = tasksCache.filter(t => !t.completed && t.due_date && new Date(t.due_date) < now);
+  const pending = tasksCache.filter(t => !t.completed && (!t.due_date || new Date(t.due_date) >= now));
   const completed = tasksCache.filter(t => t.completed);
 
-  // Incomplete grid
-  if (incomplete.length) {
-    incompleteGrid.innerHTML = incomplete.map(task => renderTaskCard(task, false)).join('');
+  // --- Overdue Grid ---
+  if (overdue.length) {
+    overdueGrid.innerHTML = overdue.map(task => renderTaskCard(task, false)).join('');
+  } else {
+    overdueGrid.innerHTML = `<div class="empty-state-mini">🎉 No overdue tasks. Great job!</div>`;
+  }
+
+  // --- Pending (To do) Grid ---
+  if (pending.length) {
+    incompleteGrid.innerHTML = pending.map(task => renderTaskCard(task, false)).join('');
   } else {
     incompleteGrid.innerHTML = `<div class="empty-state-mini">✨ No pending tasks. Take a break!</div>`;
   }
 
-  // Completed grid
+  // --- Completed Grid ---
   if (completed.length) {
     completedGrid.innerHTML = completed.map(task => renderTaskCard(task, true)).join('');
   } else {
