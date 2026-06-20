@@ -297,3 +297,15 @@ form{ display:flex; flex-direction:column; gap:16px; }
   border: 2px solid var(--danger);
   background: #fff5f0; /* light coral tint */
 }
+/* mini empty state inside each section */
+.empty-state-mini {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--ink-soft);
+  font-size: 14px;
+  font-weight: 600;
+  background: var(--clay);
+  border-radius: 26px;
+  box-shadow: inset 5px 5px 10px var(--shadow-dark), inset -5px -5px 10px var(--shadow-light);
+}
