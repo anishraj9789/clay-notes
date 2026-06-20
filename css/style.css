@@ -293,3 +293,7 @@ form{ display:flex; flex-direction:column; gap:16px; }
   .navbar{ margin: 12px 12px 0; padding: 14px 18px; }
   .user-email{ max-width: 130px; }
 }
+.note-card.overdue {
+  border: 2px solid var(--danger);
+  background: #fff5f0; /* light coral tint */
+}
