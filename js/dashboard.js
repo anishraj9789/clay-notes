@@ -74,24 +74,27 @@ document.getElementById('logoutBtn').addEventListener('click', async () => {
 
 // ---------- load tasks ----------
 async function loadTasks() {
-  spinner.style.display = 'block';
-  incompleteSection.style.display = 'none';
-  completedSection.style.display = 'none';
-  overdueSection.style.display = 'none'; 
+    spinner.style.display = 'block';
+    incompleteSection.style.display = 'none';
+    completedSection.style.display = 'none';
+    overdueSection.style.display = 'none';
+
+    const { data, error } = await window.sb
+        .from('notes')
+        .select('*')
+        .eq('user_id', currentUser.id)
+        .order('created_at', { ascending: false });
+
+    spinner.style.display = 'none';
+
+    if (error) {
+        showToast(error.message || 'Could not load tasks', true);
+        return;
+    }
+
+    tasksCache = data || [];
+    renderTasks();
 }
-
-  const { data, error } = await window.sb
-    .from('notes')
-    .select('*')
-    .eq('user_id', currentUser.id)
-    .order('created_at', { ascending: false });
-
-  spinner.style.display = 'none';
-
-  if (error) {
-    showToast(error.message || 'Could not load tasks', true);
-    return;
-  }
 
   tasksCache = data || [];
   renderTasks();
